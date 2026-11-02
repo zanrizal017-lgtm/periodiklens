@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Material & Kimia</title>
+    <style>
+        :root {
+            --primary-color: #34495e;
+            --accent-color: #3498db;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            
+            /* Warna khusus berdasarkan Fase & Sifat Ekstrem */
+            --fase-solid: #e67e22;      /* Oranye Hangat */
+            --fase-liquid: #2ecc71;     /* Hijau Segar */
+            --fase-gas: #9b59b6;        /* Ungu Lembut */
+            --fase-radioaktif: #e74c3c; /* Merah Crimson (Peringatan) */
+            --fase-unknown: #95a5a6;    /* Abu-abu */
+        }
+
+        body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            background-color: var(--bg-color); 
+            margin: 0; 
+            padding: 20px; 
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .container { 
+            max-width: 750px; 
+            margin: 40px auto; 
+            background: var(--card-bg); 
+            padding: 35px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06); 
+        }
+
+        h2 { 
+            color: var(--primary-color); 
+            text-align: center; 
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* Desain Kolom Pencarian Modern */
+        .search-box { 
+            display: flex; 
+            gap: 12px; 
+            margin-bottom: 30px; 
+        }
+
+        input[type="text"] { 
+            flex: 1; 
+            padding: 14px 20px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 10px; 
+            font-size: 16px; 
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+
+        input[type="text"]:focus { 
+            border-color: var(--accent-color); 
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+            outline: none; 
+        }
+
+        button { 
+            background-color: var(--accent-color); 
+            color: white; 
+            border: none; 
+            padding: 14px 30px; 
+            border-radius: 10px; 
+            font-size: 16px; 
+            font-weight: 600;
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+        }
+
+        button:hover { 
+            background-color: #2980b9; 
+            transform: translateY(-1px);
+        }
+        
+        /* Desain Card Dinamis */
+        .card { 
+            background: #fff; 
+            border: 1px solid #e2e8f0;
+            border-top: 6px solid var(--accent-color); 
+            padding: 25px; 
+            border-radius: 12px; 
+            margin-top: 25px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        /* Pewarnaan Border Atas Card Berdasarkan Sifat/Fase */
+        .fase-solid-card { border-top-color: var(--fase-solid); }
+        .fase-liquid-card { border-top-color: var(--fase-liquid); }
+        .fase-gas-card { border-top-color: var(--fase-gas); }
+        .fase-radioaktif-card { border-top-color: var(--fase-radioaktif); }
+
+        .card-error { 
+            border-top-color: #e74c3c; 
+            background: #fff5f5; 
+            color: #c0392b; 
+        }
+
+        .card h3 { 
+            margin-top: 0; 
+            color: var(--primary-color); 
+            font-size: 18px;
+            border-bottom: 2px solid #f1f5f9; 
+            padding-bottom: 12px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Badge Informasi */
+        .badge-fase {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .bg-solid { background-color: var(--fase-solid); }
+        .bg-liquid { background-color: var(--fase-liquid); }
+        .bg-gas { background-color: var(--fase-gas); }
+        .bg-radioaktif { background-color: var(--fase-radioaktif); }
+        .bg-unknown { background-color: var(--fase-unknown); }
+        
+        /* Desain Tabel Informasi */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        table tr { border-bottom: 1px solid #f8fafc; }
+        table tr:last-child { border-bottom: none; }
+        table td { padding: 12px 0; font-size: 15px; vertical-align: top; }
+        table td:first-child { font-weight: 600; color: var(--text-muted); width: 40%; }
+        
+        /* Desain Gambar */
+        .img-container { text-align: center; margin-top: 25px; padding-top: 20px; border-top: 2px solid #f1f5f9; }
+        .img-container p { margin-bottom: 12px; }
+        .img-container img { 
+            max-width: 280px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+            border: 4px solid white;
+            transition: transform 0.3s ease;
+        }
+        .img-container img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Unsur Penyusun */
+        h4 { color: var(--primary-color); margin-top: 25px; margin-bottom: 10px; font-size: 16px; }
+        ul { padding-left: 0; list-style: none; margin-top: 10px; }
+        li { 
+            padding: 10px 14px; 
+            background: #f8fafc; 
+            border-radius: 8px; 
+            margin-bottom: 8px; 
+            border-left: 4px solid var(--accent-color);
+            font-size: 14.5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🔬 Sistem Informasi Material & Unsur</h2>
+    
+    <form method="POST" class="search-box">
+        <input type="text" name="query" value="{{ query }}" placeholder="Ketik unsur (e.g., Fe) atau senyawa (e.g., H2SO4)..." required autocomplete="off">
+        <button type="submit">Cari</button>
+    </form>
+
+    {% if tipe_data == 'unsur' %}
+        <div class="card 
+            {% if 'solid' in hasil.standard_state.lower() %}fase-solid-card
+            {% elif 'liquid' in hasil.standard_state.lower() %}fase-liquid-card
+            {% elif 'gas' in hasil.standard_state.lower() %}fase-gas-card
+            {% elif 'artificial' in hasil.standard_state.lower() %}fase-radioaktif-card{% endif %}">
+            
+            <h3>
+                <span>DATA MATERIAL (UNSUR TUNGGAL)</span>
+                <span class="badge-fase 
+                    {% if 'solid' in hasil.standard_state.lower() %}bg-solid
+                    {% elif 'liquid' in hasil.standard_state.lower() %}bg-liquid
+                    {% elif 'gas' in hasil.standard_state.lower() %}bg-gas
+                    {% elif 'artificial' in hasil.standard_state.lower() %}bg-radioaktif
+                    {% else %}bg-unknown{% endif %}">
+                    {% if 'artificial' in hasil.standard_state.lower() %}Radioaktif{% else %}{{ hasil.standard_state }}{% endif %}
+                </span>
+            </h3>
+            
+            <table>
+                <tr><td>Nama Material</td><td>: <strong>{{ hasil.nama_asli.capitalize() }}</strong></td></tr>
+                <tr><td>Nomor Atom</td><td>: {{ hasil.nomor_atom }}</td></tr>
+                <tr><td>Massa Atom</td><td>: {{ hasil.massa_atom }} u</td></tr>
+                <tr><td>Density</td><td>: {{ hasil.density }} g/cm³</td></tr>
+                <tr><td>Standard State</td><td>: 
+                    <strong>{% if 'artificial' in hasil.standard_state.lower() %}Radioaktif (Elemen Buatan){% else %}{{ hasil.standard_state.capitalize() }}{% endif %}</strong>
+                </td></tr>
+                <tr><td>Karakteristik / Type</td><td>: {{ hasil.magnet }}</td></tr>
+                <tr><td>Struktur Kristal</td><td>: {{ hasil.kristal }}</td></tr>
+                
+                <tr><td>Tahun Penemuan</td><td>: {{ hasil.tahun_penemuan }}</td></tr>
+                <tr><td>Titik Lebur</td><td>: {{ hasil.titik_lebur }}</td></tr>
+                <tr><td>Penemu</td><td>: {{ hasil.penemu }}</td></tr>
+                </table>
+            
+            {% if url_gambar %}
+                <div class="img-container">
+                    <p style="font-size: 13px; color: var(--text-muted);"><strong>Visualisasi Fisik Unsur:</strong></p>
+                    <img src="{{ url_gambar }}" alt="Visual {{ hasil.nama_asli }}" onerror="this.style.display='none';">
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if tipe_data == 'senyawa' %}
+        <div class="card 
+            {% if hasil.populer %}
+                {% if 'solid' in hasil.populer.fase.lower() %}fase-solid-card
+                {% elif 'liquid' in hasil.populer.fase.lower() %}fase-liquid-card
+                {% elif 'gas' in hasil.populer.fase.lower() %}fase-gas-card
+                {% elif 'artificial' in hasil.populer.fase.lower() or 'radioaktif' in hasil.populer.fase.lower() %}fase-radioaktif-card{% endif %}
+            {% else %}
+                fase-unknown-card
+            {% endif %}">
+            
+            <h3>
+                <span>DATA MATERIAL (SENYAWA KOMPLEKS)</span>
+                {% if hasil.populer %}
+                    <span class="badge-fase 
+                        {% if 'solid' in hasil.populer.fase.lower() %}bg-solid
+                        {% elif 'liquid' in hasil.populer.fase.lower() %}bg-liquid
+                        {% elif 'gas' in hasil.populer.fase.lower() %}bg-gas
+                        {% elif 'artificial' in hasil.populer.fase.lower() or 'radioaktif' in hasil.populer.fase.lower() %}bg-radioaktif
+                        {% else %}bg-unknown{% endif %}">
+                        {% if 'artificial' in hasil.populer.fase.lower() %}Radioaktif{% else %}{{ hasil.populer.fase }}{% endif %}
+                    </span>
+                {% else %}
+                    <span class="badge-fase bg-unknown">Fase: N/A</span>
+                {% endif %}
+            </h3>
+            
+            <table>
+                <tr><td>Rumus Kimia</td><td>: <strong style="color: var(--accent-color); font-size: 18px;">{{ hasil.rumus }}</strong></td></tr>
+                <tr><td>Massa Molar Total</td><td>: {{ hasil.massa_molar }}</td></tr>
+                
+                {% if hasil.populer %}
+                    <tr><td>Nama Populer</td><td>: {{ hasil.populer.nama }}</td></tr>
+                    <tr><td>Sifat Larutan</td><td>: {{ hasil.populer.sifat }}</td></tr>
+                    <tr><td>Sifat Magnetik</td><td>: {{ hasil.populer.magnet }}</td></tr>
+                {% else %}
+                    <tr><td>Sifat Larutan</td><td>: Konsultasikan konsentrasi larutan (M) untuk menghitung pH</td></tr>
+                    <tr><td>Sifat Magnetik</td><td>: Perlu uji Gouge Balance / VSM lebih lanjut</td></tr>
+                {% endif %}
+            </table>
+
+            <h4>Komposisi Unsur Penyusun:</h4>
+            <ul>
+                {% for unsur in hasil.komposisi %}
+                    <li>{{ unsur.nama }} (Z={{ unsur.nomor_atom }}) &rarr; Jumlah: <strong>{{ unsur.jumlah }}</strong> atom</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if tipe_data == 'error' %}
+        <div class="card card-error">
+            <h3 style="color: #c0392b; border-bottom-color: #fcdede;">⚠️ Format Tidak Dikenali</h3>
+            <p style="font-size: 15px; margin: 5px 0 0 0;">{{ hasil }}</p>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
